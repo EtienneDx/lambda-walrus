@@ -1,0 +1,10 @@
+{
+  "watch": ["src", "../lambda-walrus/src", "../lambda-walrus-runner/src"],
+  "ext": "ts,js,json",
+  "ignore": ["node_modules/**"],
+  "exec": "npx walrus ./src/index.ts",
+  "delay": 100,
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

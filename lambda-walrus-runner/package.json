@@ -1,0 +1,41 @@
+{
+  "name": "@etiennedx/lambda-walrus-runner",
+  "version": "1.0.0",
+  "description": "A utility to run a lambda-walrus project locally",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && npx tsc",
+    "clean": "rimraf dist",
+    "test": "jest"
+  },
+  "bin": {
+    "walrus": "./bin/walrus.js"
+  },
+  "keywords": [
+    "AWS",
+    "Lambda",
+    "Handler",
+    "Runner"
+  ],
+  "author": "EtienneDx",
+  "license": "MIT",
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/aws-lambda": "^8.10.146",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@etiennedx/lambda-walrus": "file:",
+    "@etiennedx/lambda-walrus-runner": "file:",
+    "aws-lambda": "^1.0.7",
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
