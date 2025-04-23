@@ -1,4 +1,4 @@
-# Lambda Walrus 🦭
+# Lambda Walrus
 
 [![npm version](https://badge.fury.io/js/@etiennedx%2Flambda-walrus.svg)](https://www.npmjs.com/package/@etiennedx/lambda-walrus)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
