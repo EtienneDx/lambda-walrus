@@ -1,0 +1,77 @@
+name: NPM Publish
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: 'choice'
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: https://registry.npmjs.org/
+      
+      # Install dependencies for both packages
+      - name: Install lambda-walrus dependencies
+        run: npm ci
+        working-directory: ./lambda-walrus
+      
+      - name: Install lambda-walrus-runner dependencies
+        run: npm ci
+        working-directory: ./lambda-walrus-runner
+      
+      # Build packages
+      - name: Build lambda-walrus
+        run: npm run build
+        working-directory: ./lambda-walrus
+      
+      - name: Build lambda-walrus-runner
+        run: npm run build
+        working-directory: ./lambda-walrus-runner
+      
+      # Run tests
+      - name: Test lambda-walrus
+        run: npm test
+        working-directory: ./lambda-walrus
+      
+      - name: Test lambda-walrus-runner
+        run: npm test
+        working-directory: ./lambda-walrus-runner
+      
+      # Version bump if using workflow_dispatch
+      - name: Version bump lambda-walrus
+        if: github.event_name == 'workflow_dispatch'
+        run: npm version ${{ github.event.inputs.version_bump }} --no-git-tag-version
+        working-directory: ./lambda-walrus
+      
+      - name: Version bump lambda-walrus-runner
+        if: github.event_name == 'workflow_dispatch'
+        run: npm version ${{ github.event.inputs.version_bump }} --no-git-tag-version
+        working-directory: ./lambda-walrus-runner
+      
+      # Publish to NPM
+      - name: Publish lambda-walrus to npm
+        run: npm publish --access public
+        working-directory: ./lambda-walrus
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      
+      - name: Publish lambda-walrus-runner to npm
+        run: npm publish --access public
+        working-directory: ./lambda-walrus-runner
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
